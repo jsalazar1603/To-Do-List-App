@@ -1,4 +1,6 @@
 .newTask{
+    display: flex;
+    align-items: center;
+    gap: 30px;
     height: 30px;
-    background-color: darkcyan;
 }
