@@ -1,83 +1,133 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
-.main{
-    display: flex;
-    gap: 30px;
-    height: 100vh;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+button {
+  cursor: pointer;
 }
-.registro-de-tareas{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+.main {
+  display: flex;
+  gap: 30px;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #517ff6;
 }
-.title{
-    font-size: 30px;
-    font-family: 'Josefin Sans';
-    text-align: center;
+.contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: #ffffff80;
+  width: 50%;
+  padding: 50px;
 }
-.registro{
-    display: flex;
-    gap: 20px;
+.registro-de-tareas {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
 }
-.registro input{
-    border: 1px solid gray;
-    border-radius: 3px;
-    width: 300px;
-    height: 20px;
-    padding: 5px 8px;
-    font-family: 'Josefin Sans';
+.title {
+  font-size: 30px;
+  font-family: "Josefin Sans";
+  text-align: center;
 }
-.registro button{
-    background-color:rgb(43, 123, 177);
-    color: white;
-    padding: 5px 15px;
-    font-family: 'Josefin Sans';
-    border: 1px solid gray;
-    border-radius: 4px;
-    cursor: pointer;
+.registro {
+  display: flex;
+  gap: 20px;
 }
-.container{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.registro input {
+  border: 1px solid gray;
+  border-radius: 3px;
+  width: 300px;
+  height: 20px;
+  padding: 5px 8px;
+  font-family: "Josefin Sans";
 }
-.right-side-task{
-    display: flex;
-    gap: 20px;
+.registro button {
+  background-color: rgb(43, 123, 177);
+  color: white;
+  padding: 5px 15px;
+  font-family: "Josefin Sans";
+  border: 1px solid gray;
+  border-radius: 4px;
+  cursor: pointer;
 }
-.tareas{
-    display: flex;
-    height: 25px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 100px;
-    padding: 10px 20px;
-    background-color: rgb(197, 201, 201);
-    border: 1px solid rgb(43, 123, 177);
-    border-radius: 5px;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.right-side-task {
+  display: flex;
+  gap: 20px;
+}
+.tareas {
+  position: relative;
+  display: flex;
+  height: 25px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+  padding: 10px 20px;
+  border: 1px solid rgb(43, 123, 177);
+  border-radius: 5px;
 }
 
-.icono-check{
-    font-size: 1em;
-    background-color: rgb(43, 123, 177);
-    color: white;
-    border-radius:  100%;
-    height: 35px;
-    width:35px;
-    border: 1px solid gray
+.tareas-completadas {
+  position: relative;
+  display: flex;
+  height: 25px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+  padding: 10px 20px;
+  border: 1px solid rgb(43, 123, 177);
+  border-radius: 5px;
+  z-index: 10;
+ transition: 1s all;
 }
 
-.icono-eliminar{
-    font-size: 1em;
-    background-color: rgb(196, 35, 35);
-    color: white;
-    border-radius:  100%;
-    height: 35px;
-    width:35px;
-    border: 1px solid gray
+.tareas-completadas::before{
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(to right,#1ba82e,#19b626);
+  animation: carga 1s linear forwards;
+  z-index: -1;
+}
+
+@keyframes carga {
+ 0%{
+   width: 0;
+ }
+ 100%{
+   width: 100%;
+ }
+}
+
+.icono-check {
+  font-size: 1em;
+  background-color: rgb(43, 123, 177);
+  color: white;
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  border: 1px solid gray;
+}
+
+.icono-eliminar {
+  font-size: 1em;
+  background-color: rgb(196, 35, 35);
+  color: white;
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  border: 1px solid gray;
 }
