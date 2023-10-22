@@ -49,7 +49,6 @@ const reducer = (state, action) => {
 };
 function App() {
   const [lista, dispatch] = useReducer(reducer, valorInicial);
-  const [miTarea, setMiTarea] = useState("");
   const getRealizadasCount = () =>
     lista.filter((tarea) => tarea.completada).length;
   const getNoRealizadasCount = () =>
