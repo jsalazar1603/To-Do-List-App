@@ -1,16 +1,14 @@
-import { useReducer, useRef, useState } from "react";
-import "./App.css";
-import Task from "./components/Task";
+import { useReducer, useState } from "react";
 import { Check, Trash, Undo } from "iconoir-react";
+import Task from "./components/Task";
 import Modal from "./components/Modal.jsx";
+import "./App.css";
 
-const types = {
-  añadir: "añadir",
-  finalizar: "finalizar",
-  eliminar: "eliminar",
-};
+const DELETE = "eliminar";
+const ADD = "añadir";
+const COMPLETE = "finalizar";
 
-const valorInicial = [
+const initialValues = [
   {
     id: 1,
     nombre: "Estudiar para mi exámen",
@@ -27,96 +25,93 @@ const valorInicial = [
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case types.añadir:
+    case ADD:
       return [...state, action.payload];
 
-    case types.eliminar:
-      // No necesitas actualizar los contadores aquí, ya que lo haremos en el componente.
+    case DELETE:
       return state.filter((valor) => valor.id !== action.payload);
 
-    case types.finalizar:
-      return state.map((tarea) =>
-        tarea.id === action.payload
+    case COMPLETE:
+      return state.map(({id,completada,clickeado,...rest}) =>
+        id === action.payload
           ? {
-              ...tarea,
-              completada: !tarea.completada,
-              clickeado: !tarea.clickeado,
+              id,
+              completada: !completada,
+              clickeado: !clickeado,
+              ...rest
             }
-          : tarea
+          : {id,completada,clickeado,...rest}
       );
   }
   return state;
 };
 function App() {
-  const [lista, dispatch] = useReducer(reducer, valorInicial);
-  const getRealizadasCount = () =>
+  const [lista, dispatch] = useReducer(reducer, initialValues);
+  const getCompletedCount = () =>
     lista.filter((tarea) => tarea.completada).length;
-  const getNoRealizadasCount = () =>
+  const getIncompleteCount = () =>
     lista.filter((tarea) => !tarea.completada).length;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const addTask = (newTask) => {
     dispatch({
-      type: types.añadir,
+      type: ADD,
       payload: newTask,
     });
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const toggleModal = (isOpen) => {
+    setIsModalOpen(isOpen);
   };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  
 
   return (
     <>
       <div className="main">
-        <div className="contenido">
-          <div className="registro-de-tareas">
+        <div className="content">
+          <div className="controlPanel">
             <div className="title">
               <h1>Lista de Tareas</h1>
             </div>
             <div className="buttonsPanel">
               <div className="left-side">
-                <button onClick={openModal}>Añadir nueva tarea</button>
+                <button onClick={()=>toggleModal(true)}>Añadir nueva tarea</button>
               </div>
               <div className="right-side">
                 <button>Todas</button>
-                <button>{`${getNoRealizadasCount()} Por Hacer`}</button>
-                <button>{`${getRealizadasCount()} Terminadas`}</button>
+                <button>{`${getIncompleteCount()} Por Hacer`}</button>
+                <button>{`${getCompletedCount()} Terminadas`}</button>
               </div>
               <Modal
                   isOpen={isModalOpen}
-                  closeModal={closeModal}
+                  closeModal={()=>toggleModal(false)}
                   addTask={addTask}
                 />
             </div>
           </div>
           <div className="container">
-            {lista.map((tarea) => (
+            {lista.map(({id,nombre,completada}) => (
               <div
-                className={`tareas${tarea.completada ? "-completadas" : ""}`}
-                key={tarea.id}
+                className={`task${completada ? "-completed" : ""}`}
+                key={id}
               >
                 <div className="left-side-task">
-                  <Task name={tarea.nombre} />
+                  <Task name={nombre} />
                 </div>
                 <div className="right-side-task">
                   <button
                     className={`${
-                      tarea.completada ? "icono-back" : "icono-check"
+                      completada ? "backIcon" : "checkIcon"
                     }`}
                     onClick={() => {
                       dispatch({
-                        type: types.finalizar,
-                        payload: tarea.id,
+                        type: COMPLETE,
+                        payload: id,
                       });
                     }}
                   >
-                    {tarea.completada == false ? (
+                    {completada == false ? (
                       <Check width={30} />
                     ) : (
                       <Undo width={30} />
@@ -125,11 +120,11 @@ function App() {
                   <button
                     onClick={() => {
                       dispatch({
-                        type: types.eliminar,
-                        payload: tarea.id,
+                        type: DELETE,
+                        payload: id,
                       });
                     }}
-                    className="icono-eliminar"
+                    className="deleteIcon"
                   >
                     <Trash width={20} />
                   </button>

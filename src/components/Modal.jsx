@@ -22,7 +22,7 @@ const Modal = ({ isOpen, addTask, closeModal }) => {
       <div className={isOpen ? style.openModal : style.closeModal}>
         <div className={style.container}>
           <h2 className={style.title}>Crear nueva tarea</h2>
-          <div className={style.datos}>
+          <div className={style.taskInput}>
             <label htmlFor="name">Nombre:</label>
             <input
               type="text"
@@ -31,9 +31,9 @@ const Modal = ({ isOpen, addTask, closeModal }) => {
               placeholder="Ej: Organizar mi cuarto"
             />
           </div>
-          <div className={style.buttons}>
-            <button onClick={() => handleAddTask()}>Añadir</button>
-            <button onClick={() => closeModal()}>Cerrar</button>
+          <div className={style.controlButtons}>
+            <button className={style.buttonAdd} onClick={() => handleAddTask()}>Añadir</button>
+            <button className={style.buttonClose} onClick={() => closeModal()}>Cerrar</button>
           </div>
         </div>
       </div>
